@@ -1,5 +1,7 @@
 package lipid;
 
+import org.drools.ruleunits.api.RuleUnitInstance;
+import org.drools.ruleunits.api.RuleUnitProvider;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -16,10 +18,15 @@ public class AdductDetectionTest {
     // !!TODO For the adduct detection both regular algorithms or drools can be used as far the tests are passed.
 
 
+    private LipidScoreUnit lipidScoreUnit;
+    private RuleUnitInstance<LipidScoreUnit> instance;
+
     @Before
     public void setup() {
-        // !! TODO Empty by now,you can create common objects for all tests.
+        lipidScoreUnit = new LipidScoreUnit();
+        instance = RuleUnitProvider.get().createRuleUnitInstance(lipidScoreUnit);
     }
+
 
     @Test
     public void shouldDetectAdductBasedOnMzDifference() {

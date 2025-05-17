@@ -1,0 +1,89 @@
+package lipid
+
+unit LipidScoreUnit;
+
+
+rule "Carbonos y RT creciente"
+when
+    a1: /annotations
+    a2: /annotations
+        eval(a1 != a2 &&
+             a1.getDoubleBondsCount() == a2.getDoubleBondsCount() &&
+             a2.getCarbonCount() > a1.getCarbonCount() &&
+             a2.getRtMin() > a1.getRtMin())
+then
+    a1.addScore(1);
+    a2.addScore(1);
+end
+
+
+rule "Penalizar RT bajo con más carbonos"
+when
+    a1: /annotations
+    a2: /annotations
+        eval(a1 != a2 &&
+             a1.getDoubleBondsCount() == a2.getDoubleBondsCount() &&
+             a2.getCarbonCount() > a1.getCarbonCount() &&
+             a2.getRtMin() < a1.getRtMin())
+then
+    a1.addScore(-1);
+    a2.addScore(-1);
+end
+
+
+rule "Dobles enlaces y RT decreciente"
+when
+    a1: /annotations
+    a2: /annotations
+        eval(a1 != a2 &&
+             a1.getCarbonCount() == a2.getCarbonCount() &&
+             a2.getDoubleBondsCount() > a1.getDoubleBondsCount() &&
+             a2.getRtMin() < a1.getRtMin())
+then
+    a1.addScore(1);
+    a2.addScore(1);
+end
+
+
+rule "Penalizar RT mayor con más dobles enlaces"
+when
+    a1: /annotations
+    a2: /annotations
+        eval(a1 != a2 &&
+             a1.getCarbonCount() == a2.getCarbonCount() &&
+             a2.getDoubleBondsCount() > a1.getDoubleBondsCount() &&
+             a2.getRtMin() > a1.getRtMin())
+then
+    a1.addScore(-1);
+    a2.addScore(-1);
+end
+
+
+rule "Orden correcto de clase de lípido y RT creciente"
+when
+    a1: /annotations
+    a2: /annotations
+        eval(a1 != a2 &&
+             a1.getCarbonCount() == a2.getCarbonCount() &&
+             a1.getDoubleBondsCount() == a2.getDoubleBondsCount() &&
+             a1.getLipidClassRank() < a2.getLipidClassRank() &&
+             a1.getRtMin() < a2.getRtMin())
+then
+    a1.addScore(1);
+    a2.addScore(1);
+end
+
+
+rule "Penalizar orden incorrecto de clase de lípido"
+when
+    a1: /annotations
+    a2: /annotations
+        eval(a1 != a2 &&
+             a1.getCarbonCount() == a2.getCarbonCount() &&
+             a1.getDoubleBondsCount() == a2.getDoubleBondsCount() &&
+             a1.getLipidClassRank() > a2.getLipidClassRank() &&
+             a1.getRtMin() < a2.getRtMin())
+then
+    a1.addScore(-1);
+    a2.addScore(-1);
+end

@@ -1,6 +1,6 @@
 package lipid;
 
-public class Peak {
+public class Peak implements Comparable<Peak> {
 
     private final double mz;
     private final double intensity;
@@ -19,13 +19,8 @@ public class Peak {
     }
 
     @Override
-    public String toString() {
-        return String.format("Peak(mz=%.4f, intensity=%.2f)", mz, intensity);
-    }
-
-    @Override
-    public int hashCode() {
-        return Double.hashCode(mz) * 31;
+    public int compareTo(Peak other) {
+        return Double.compare(this.mz, other.mz);
     }
 
     @Override
@@ -33,6 +28,16 @@ public class Peak {
         if (this == obj) return true;
         if (!(obj instanceof Peak)) return false;
         Peak other = (Peak) obj;
-        return Double.compare(mz, other.mz) == 0;
+        return Double.compare(this.mz, other.mz) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Double.hashCode(mz);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Peak(mz=%.4f, intensity=%.2f)", mz, intensity);
     }
 }
