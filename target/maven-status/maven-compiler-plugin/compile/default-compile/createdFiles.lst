@@ -1,0 +1,9 @@
+lipid\Peak.class
+adduct\MassTransformation.class
+lipid\IoniationMode.class
+adduct\Adduct.class
+lipid\Annotation.class
+lipid\Lipid.class
+adduct\AdductList.class
+lipid\LipidScoreUnit.class
+main\Main.class
